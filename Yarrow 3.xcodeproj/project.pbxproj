@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		F4242F411C173483005C95E5 /* Generation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F4242F3F1C173483005C95E5 /* Generation.cpp */; };
 		F455C92B1C10E33300416D15 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F455C92A1C10E33300416D15 /* main.cpp */; };
+		F455C9321C11014700416D15 /* libcryptopp.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F455C9311C11014700416D15 /* libcryptopp.a */; };
+		F455C9351C1101C800416D15 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F455C9331C1101A200416D15 /* libcrypto.a */; };
+		F455C9381C11032200416D15 /* SHA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F455C9361C11032200416D15 /* SHA.cpp */; };
+		F455C93B1C11039100416D15 /* DES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F455C9391C11039100416D15 /* DES.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -23,8 +28,16 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		F4242F3F1C173483005C95E5 /* Generation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Generation.cpp; sourceTree = "<group>"; };
+		F4242F401C173483005C95E5 /* Generation.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Generation.hpp; sourceTree = "<group>"; };
 		F455C9271C10E33300416D15 /* Yarrow 3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Yarrow 3"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F455C92A1C10E33300416D15 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
+		F455C9311C11014700416D15 /* libcryptopp.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcryptopp.a; path = ../../../../../../../usr/local/lib/libcryptopp.a; sourceTree = "<group>"; };
+		F455C9331C1101A200416D15 /* libcrypto.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libcrypto.a; path = ../../../../../../../usr/local/lib/libcrypto.a; sourceTree = "<group>"; };
+		F455C9361C11032200416D15 /* SHA.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SHA.cpp; sourceTree = "<group>"; };
+		F455C9371C11032200416D15 /* SHA.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SHA.hpp; sourceTree = "<group>"; };
+		F455C9391C11039100416D15 /* DES.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DES.cpp; sourceTree = "<group>"; };
+		F455C93A1C11039100416D15 /* DES.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DES.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,6 +45,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F455C9321C11014700416D15 /* libcryptopp.a in Frameworks */,
+				F455C9351C1101C800416D15 /* libcrypto.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -41,6 +56,8 @@
 		F455C91E1C10E33300416D15 = {
 			isa = PBXGroup;
 			children = (
+				F455C9331C1101A200416D15 /* libcrypto.a */,
+				F455C9311C11014700416D15 /* libcryptopp.a */,
 				F455C9291C10E33300416D15 /* Yarrow 3 */,
 				F455C9281C10E33300416D15 /* Products */,
 			);
@@ -58,6 +75,12 @@
 			isa = PBXGroup;
 			children = (
 				F455C92A1C10E33300416D15 /* main.cpp */,
+				F4242F3F1C173483005C95E5 /* Generation.cpp */,
+				F4242F401C173483005C95E5 /* Generation.hpp */,
+				F455C9361C11032200416D15 /* SHA.cpp */,
+				F455C9371C11032200416D15 /* SHA.hpp */,
+				F455C9391C11039100416D15 /* DES.cpp */,
+				F455C93A1C11039100416D15 /* DES.hpp */,
 			);
 			path = "Yarrow 3";
 			sourceTree = "<group>";
@@ -118,7 +141,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F455C93B1C11039100416D15 /* DES.cpp in Sources */,
+				F455C9381C11032200416D15 /* SHA.cpp in Sources */,
 				F455C92B1C10E33300416D15 /* main.cpp in Sources */,
+				F4242F411C173483005C95E5 /* Generation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -128,7 +154,7 @@
 		F455C92C1C10E33300416D15 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -161,17 +187,20 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = /usr/local/include/;
 			};
 			name = Debug;
 		};
 		F455C92D1C10E33300416D15 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -198,9 +227,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = /usr/local/include/;
+				LIBRARY_SEARCH_PATHS = /usr/local/lib/;
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				USER_HEADER_SEARCH_PATHS = /usr/local/include/;
 			};
 			name = Release;
 		};
@@ -237,6 +269,7 @@
 				F455C9301C10E33300416D15 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
