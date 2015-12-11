@@ -11,16 +11,9 @@
 using namespace std;
 using namespace CryptoPP;
 
-//GENERATOR::GENERATOR(){
-//    AutoSeededRandomPool prng;
-//    
-//    key(DES_EDE3::DEFAULT_KEYLENGTH);
-//    prng.GenerateBlock( key, key.size() );
-//}
-
 //Default Constructor Definition
 GENERATOR::GENERATOR(){
-    
+    newCtr1 = 0;
 }
 
 //Overload Constructor Definition
@@ -34,6 +27,22 @@ GENERATOR::GENERATOR(vector <unsigned char> ctr,SecByteBlock key) {
 // Accessor Function for key
 SecByteBlock GENERATOR::getKey() const {
     return newKey;
+}
+
+string GENERATOR::getKeyString() {
+    
+    SecByteBlock key = newKey;
+    string keyString = string(reinterpret_cast<const char*>(key.data()),key.size());
+    
+    cout << "PreHex: " << keyString << endl << "Post Hex: ";
+    
+    HexEncoder hex(new StringSink(keyString));
+    hex.Put(key.data(),key.size());
+    hex.MessageEnd();
+    
+    //cout << "KeyString = " << keyString << endl;
+    return keyString;
+    
 }
 
 //Accessor Function for ctr
@@ -53,7 +62,15 @@ vector <unsigned char> GENERATOR::resetCtr() {
     }
     
     cout << "The generated counter is of size: " << ctr.size() << endl;
+    
+    cout << "But using sizeof(), we return: " << sizeof(ctr) << endl;
     return newCtr = ctr;
+}
+
+int GENERATOR::resetCtrEasy() {
+    newCtr1 = 0;
+    
+    return newCtr1;
 }
 
 
@@ -69,54 +86,84 @@ CryptoPP::SecByteBlock GENERATOR::initialiseKey() {
     return newKey = key;
 }
 
+SecByteBlock GENERATOR::setKey(string keyString){
+    
+    //Convert string for new key into SecByteBlock and set as new key
+    SecByteBlock replacementKey(reinterpret_cast<const byte*>(keyString.data()), keyString.size());
+    return newKey = replacementKey;
+    
+}
 
 
 
 string GENERATOR::GEN() {
     
-   //AutoSeededRandomPool prng;
-//    
+    //AutoSeededRandomPool prng;
+    //
     //SecByteBlock key(DES_EDE3::DEFAULT_KEYLENGTH);
-   // prng.GenerateBlock( key, key.size() );
+    // prng.GenerateBlock( key, key.size() );
     
     //Assign variables for counter and key from class
-    vector <unsigned char> ctrVec = newCtr;
     CryptoPP::SecByteBlock key = newKey;
+    //vector <unsigned char> ctrVec = newCtr;
     
     
-    cout << "Upon reaching the Generator Function the counter is of size: " << ctrVec.size() << endl;
+    //Convert new int ctr to binary
+    int rem,i, a = newCtr1;
     
-    //Declare variable for non-vector type counter
-    unsigned char ctr[ctrVec.size()];
+    unsigned char ctr[8];
     
-    cout << "The array is of size before filling: " << sizeof(ctr) << endl;
-    
-    //Declare temperary variable for use in loop
-    unsigned char tempCtr;
-    
-    //Run for loop to convert vector to array using pointers [FUCKING SCRAY MATE]
-    for(int i = 0; i < ctrVec.size(); i++) {
+    for (i = 0; i < 8; i++) {
+        if (a == 0) {
+            ctr[i]= '0';
+        }
+        else {
+            rem = a % 2;
+            
+            if (rem == 0){
+                ctr[i] = '0';
+            }
+            else {
+                ctr[i] = '1';
+            }
+            a = a/2;
+        }
         
-        //Get value for individaul vector
-        tempCtr = ctrVec[i];
-        
-        //Push back into array
-        ctr[i] = tempCtr;
-        
-        cout << ctr[i] << endl;
     }
     
+    
+    
+    // cout << "Upon reaching the Generator Function the counter is of size: " << ctrVec.size() << endl;
+    
+    //Declare variable for non-vector type counter
+    //unsigned char ctr[ctrVec.size()];
+    
+    cout << endl << "The array is of size before filling: " << sizeof(ctr) << endl;
+    
+    //Declare temperary variable for use in loop
+    //unsigned char tempCtr;
+    
+    //Run for loop to convert vector to array using pointers [FUCKING SCRAY MATE]
+    //for(int i = 0; i < ctrVec.size(); i++) {
+    
+    //Get value for individaul vector
+    //     tempCtr = ctrVec[i];
+    
+    //Push back into array
+    //       ctr[i] = tempCtr;
+    // }
+    
     cout << "Key size: " << key.size() << endl;
-        
+    
     cout << "Counter size: " << sizeof(ctr) << endl;
     
     //cout << ctr[1] << endl; // Output Random Value.
-    string plain;
+    string plain = "Hello";
     string cipher, encoded, recovered;
     
-    cout << "Please enter a message to be Cipered" << endl;
-    cin >> plain;
-    cout << endl;
+    //cout << "Please enter a message to be Cipered" << endl;
+    //cin >> plain;
+    //cout << endl;
     
     /*********************************\
      Pad the message
@@ -159,30 +206,30 @@ string GENERATOR::GEN() {
     /*********************************\
      Decode the Message
      \*********************************/
+    //
+    //    try
+    //    {
+    //        CTR_Mode< DES_EDE3 >::Decryption d;
+    //        d.SetKeyWithIV( key, key.size(), ctr );
+    //
+    //        // The StreamTransformationFilter removes
+    //        //  padding as required.
+    //        StringSource ss3( cipher, true,
+    //                         new StreamTransformationFilter( d,
+    //                                                        new StringSink( recovered )
+    //                                                        ) // StreamTransformationFilter
+    //                         ); // StringSource
+    //
+    //        cout << "recovered text: " << recovered << endl;
+    //    }
+    //    catch( CryptoPP::Exception& e )
+    //    {
+    //        cerr << e.what() << endl;
+    //        exit(1);
+    //    }
     
-    try
-    {
-        CTR_Mode< DES_EDE3 >::Decryption d;
-        d.SetKeyWithIV( key, key.size(), ctr );
-        
-        // The StreamTransformationFilter removes
-        //  padding as required.
-        StringSource ss3( cipher, true,
-                         new StreamTransformationFilter( d,
-                                                        new StringSink( recovered )
-                                                        ) // StreamTransformationFilter
-                         ); // StringSource
-        
-        cout << "recovered text: " << recovered << endl;
-    }
-    catch( CryptoPP::Exception& e )
-    {
-        cerr << e.what() << endl;
-        exit(1);
-    }
     
-    
-    newctr = 
+    newCtr1 = newCtr1 + 1;
     
     
     return encoded;

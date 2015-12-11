@@ -75,11 +75,17 @@ public:
     
     vector <unsigned char> getCtr() const;
     
+    string getKeyString();
+    
     //Reset Counter
     vector <unsigned char> resetCtr();
     
     //Initilise Key
     CryptoPP::SecByteBlock initialiseKey();
+    
+    //SetKey
+    
+    CryptoPP::SecByteBlock setKey(string);
     
     
     //Generator Function
@@ -90,11 +96,19 @@ public:
     int GATE();
     
     
+    //Reset the counter the sensible way
+    int resetCtrEasy();
+    
+    
     
 private:
-    
+    //Hold the key
     SecByteBlock newKey;
+    //Hold the counter
     vector <unsigned char> newCtr;
+    
+    //Hold the counter in a much more sensible way
+    int newCtr1;
     
 
 };
