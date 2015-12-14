@@ -15,7 +15,7 @@ void changeKey(GENERATOR firstGen) {
     
     //Run the generator until the length produced is less than the required length for the key
     while (replaceKey.length() < 24) {
-         
+        
         replaceKey += firstGen.GEN();
     }
     
@@ -33,6 +33,8 @@ void changeKey(GENERATOR firstGen) {
     cout << "key Length is now: " << replaceKey.length() << endl;
     
     // Replace the key
+    
+    cout << "The New Key String is: " << replaceKey << endl;
     firstGen.setKey(replaceKey);
     
     cout << "Successfully changed the key!" << endl;
@@ -76,24 +78,6 @@ int main() {
             
         case 3:
             
-            //Generate key
-            //AutoSeededRandomPool prng;
-            
-            //SecByteBlock key(DES_EDE3::DEFAULT_KEYLENGTH);
-            //prng.GenerateBlock( key, key.size() );
-            
-            //Set counter to 0
-            //unsigned char ctr[ DES_EDE3::BLOCKSIZE ] = {0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00}; // ctr = counter - Set starting value to 0 in hex.
-            
-            
-            //Run Generation.cpp
-            
-            // unsigned char ctr[ DES_EDE3::BLOCKSIZE ]; // ctr = counter - Set starting value to 0 in hex.
-            //prng.GenerateBlock( ctr, sizeof(ctr) ); // Generate starting value for counter
-            
-            //memset(&ctr, 0, sizeof(ctr)); // Set all values to 0
-            
-            
             //WHY DONT YOU MAKE IT COUNT YOURSELF USING INT YOU DIV!!!
             
             cout << "Running GEN Script" << endl;
@@ -111,7 +95,7 @@ int main() {
             
             cout << "The starting key is: " << firstGen.getKeyString() << endl;
             
-            //Run the generator 10 times.
+            //Run the generator 10 times as P_g = 10 for the generator gate.
             for (int i = 0; i < 10; i++) {
                 
                 string Generated = firstGen.GEN();
@@ -119,40 +103,11 @@ int main() {
             
             
             //CHANGE THE MOTHERFUCKING KEYYYYYYYYY
-            
-            
-//            //Create temp variable for new key
-//            string replaceKey = "";
-//            
-//            
-//            //Run the generator until the length produced is less than the required length for the key
-//            while (replaceKey.length() < 24) {
-//                
-//                replaceKey += firstGen.GEN();
-//            }
-//            
-//            cout << "Key length is currently: " << replaceKey.length() << endl;
-//            
-//            //If statement - If the length is now higher, calculates the number of characters over and removes them
-//            if (replaceKey.length() > 24) {
-//                int ExtraLength = replaceKey.length() - 24;
-//                cout << "Extra Length: " << ExtraLength << endl;
-//                
-//                replaceKey.erase(replaceKey.end() - ExtraLength, replaceKey.end());
-//                
-//            }
-//            
-//            cout << "key Length is now: " << replaceKey.length() << endl;
-//            
-//            // Replace the key
-//            firstGen.setKey(replaceKey);
-//            
-//            cout << "Successfully changed the key!" << endl;
-//            
-//
+
             cout << "The old key is: " << firstGen.getKeyString() << endl;
             
             changeKey(firstGen);
+            //firstGen.initialiseKey();
             
             cout << "The New Key is: " << firstGen.getKeyString() << endl;
             

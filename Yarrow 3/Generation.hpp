@@ -16,6 +16,7 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
+#include <bitset>
 
 #include <cryptopp/modes.h>
 #include <cryptopp/aes.h>
@@ -55,6 +56,7 @@ using CryptoPP::CTR_Mode;
 
 #include "cryptopp/secblock.h"
 using CryptoPP::SecByteBlock;
+
 
 using namespace std;
 

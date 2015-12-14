@@ -77,6 +77,7 @@ int GENERATOR::resetCtrEasy() {
 
 // Generate Initial Key using Random Pool
 //OBVIOUSLY THE RANDOM POOL IS WRONG - THIS WILL NEED SORTING!
+
 CryptoPP::SecByteBlock GENERATOR::initialiseKey() {
     AutoSeededRandomPool prng;
     
@@ -86,10 +87,23 @@ CryptoPP::SecByteBlock GENERATOR::initialiseKey() {
     return newKey = key;
 }
 
-SecByteBlock GENERATOR::setKey(string keyString){
+SecByteBlock GENERATOR::setKey(const string keyString){
     
     //Convert string for new key into SecByteBlock and set as new key
-    SecByteBlock replacementKey(reinterpret_cast<const byte*>(keyString.data()), keyString.size());
+    SecByteBlock replacementKey(DES_EDE3::KEYLENGTH);
+    
+    size_t s = STDMIN(replacementKey.size(),keyString.size());
+    
+    memcpy(replacementKey.data(),keyString.data(),s);
+    
+    if (s<DES_EDE3::KEYLENGTH) {
+        memset(replacementKey.data() + s, 0, DES_EDE3::KEYLENGTH - s);
+    }
+    //replacementKey= SecByteBlock(reinterpret_cast<const byte*>(keyString.data()), keyString.size());
+    
+    
+   // HKDF<SHA256> kdf;
+    
     return newKey = replacementKey;
     
 }
@@ -157,7 +171,9 @@ string GENERATOR::GEN() {
     
     cout << "Counter size: " << sizeof(ctr) << endl;
     
-    //cout << ctr[1] << endl; // Output Random Value.
+    
+    // Convert newCtr1 to binary representation in 8 bit as a string for use within the algorithm
+    //string plain = bitset<8>(newCtr1).to_string();
     string plain = "Hello";
     string cipher, encoded, recovered;
     
@@ -229,108 +245,9 @@ string GENERATOR::GEN() {
     //    }
     
     
-    newCtr1 = newCtr1 + 1;
+    //Increase the counter by one
+    //newCtr1 = newCtr1 + 1;
     
     
     return encoded;
 }
-
-//int DES1::DES() {
-//
-//
-//    AutoSeededRandomPool prng;
-//
-//    SecByteBlock key(DES_EDE3::DEFAULT_KEYLENGTH);
-//    prng.GenerateBlock( key, key.size() );
-//
-//    byte ctr[ DES_EDE3::BLOCKSIZE ];
-//    prng.GenerateBlock( ctr, sizeof(ctr) );
-//
-//
-//    /*********************************\
-//     \*********************************/
-//
-//
-////
-////    AutoSeededRandomPool prng;
-////
-////    SecByteBlock key(0x00, DES_EDE3::DEFAULT_KEYLENGTH);
-////    prng.GenerateBlock(key, key.size());
-////
-////    cout << key.size() << endl;
-////
-////    byte iv[DES_EDE3::BLOCKSIZE];
-////    prng.GenerateBlock(iv, sizeof(iv));
-//
-//    string plain;
-//    string cipher, encoded, recovered;
-//
-//    cout << "Please enter a message to place through DES Counter Mode" << endl;
-//
-//    cin >> plain;
-//
-//    cout << endl;
-//
-//    /*********************************\
-//     \*********************************/
-//
-//    try
-//    {
-//        cout << "plain text: " << plain << endl;
-//
-//        CTR_Mode< DES_EDE3 >::Encryption e;
-//        e.SetKeyWithIV(key, key.size(), iv);
-//
-//        // The StreamTransformationFilter adds padding
-//        //  as required. ECB and CBC Mode must be padded
-//        //  to the block size of the cipher.
-//        StringSource ss1(plain, true,
-//                         new StreamTransformationFilter(e,
-//                                                        new StringSink(cipher)
-//                                                        ) // StreamTransformationFilter
-//                         ); // StringSource
-//    }
-//    catch(const CryptoPP::Exception& e)
-//    {
-//        cerr << e.what() << endl;
-//        exit(1);
-//    }
-//
-//    /*********************************\
-//     \*********************************/
-//
-//    // Pretty print
-//    StringSource ss2(cipher, true,
-//                     new HexEncoder(
-//                                    new StringSink(encoded)
-//                                    ) // HexEncoder
-//                     ); // StringSource
-//
-//    cout << "cipher text: " << encoded << endl;
-//
-//    /*********************************\
-//     \*********************************/
-//
-//    try
-//    {
-//        CTR_Mode< DES_EDE3 >::Decryption d;
-//        d.SetKeyWithIV(key, key.size(), iv);
-//
-//        // The StreamTransformationFilter removes
-//        //  padding as required.
-//        StringSource ss3(cipher, true,
-//                         new StreamTransformationFilter(d,
-//                                                        new StringSink(recovered)
-//                                                        ) // StreamTransformationFilter
-//                         ); // StringSource
-//
-//        cout << "recovered text: " << recovered << endl;
-//    }
-//    catch(const CryptoPP::Exception& e)
-//    {
-//        cerr << e.what() << endl;
-//        exit(1);
-//    }
-//    return 0;
-//}
-
