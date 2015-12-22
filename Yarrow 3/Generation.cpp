@@ -173,8 +173,8 @@ string GENERATOR::GEN() {
     
     
     // Convert newCtr1 to binary representation in 8 bit as a string for use within the algorithm
-    //string plain = bitset<8>(newCtr1).to_string();
-    string plain = "Hello";
+    string plain = bitset<8>(newCtr1).to_string();
+    //string plain = "Hello";
     string cipher, encoded, recovered;
     
     //cout << "Please enter a message to be Cipered" << endl;
@@ -246,7 +246,7 @@ string GENERATOR::GEN() {
     
     
     //Increase the counter by one
-    //newCtr1 = newCtr1 + 1;
+    newCtr1 = newCtr1 + 1;
     
     
     return encoded;

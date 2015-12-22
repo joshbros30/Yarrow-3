@@ -5,10 +5,12 @@
 #include "DES.hpp"
 #include "SHA.hpp"
 #include "Generation.hpp"
+#include "ReseedMech.hpp"
+//#include "EntropyAccumulator.h"
 
 using namespace std;
 
-void changeKey(GENERATOR firstGen) {
+GENERATOR changeKey(GENERATOR firstGen) {
     //Create temp variable for new key
     string replaceKey = "";
     
@@ -39,6 +41,7 @@ void changeKey(GENERATOR firstGen) {
     
     cout << "Successfully changed the key!" << endl;
     
+    return firstGen;
     
 
 }
@@ -51,7 +54,8 @@ int main() {
     int x;
     
     cout << "What function would you like to run? " << endl;
-    cout << "1. SHA1" << endl << "2. DES" << endl << "3. Run Full Generator" << endl << "4. Close the programme." << endl;
+    cout << "1. SHA1" << endl << "2. DES" << endl << "3. Run Full Generator" << endl;
+    cout << "4. Reseed Test" << endl << "5. Close the programme." << endl;
     
     cin >> x;
     
@@ -60,27 +64,36 @@ int main() {
         case 1:
             //Call the SHA function to produce SHA1 hashing.
             SEC1 h;
-            h.SHA();
-            cout << "Finished Running SHA Script" << endl;
-            break;
+            //int y;
+            
+          
+                    h.SHATEST();
+                    cout << "Finished Running SHA Script" << endl;
+                    break;
         case 2:
             //Run DES.cpp
-            cout << "Running DES Script" << endl;
+            cout << endl << "Running DES Script" << endl;
             DES1 j;
             j.DES();
             
             cout << "Finished Running DES Script" << endl;
             break;
             
-        case 4:
-            cout << "Closing the programme :) " << endl;
+        case 5:
+            cout << endl << "Closing the programme :) " << endl;
             return 0;
+            
+        case 4:
+            cout << endl << "Running Ressed Mechanism Test" << endl;
+            RESEEDER Cool;
+            Cool.RESEED();
+            break;
             
         case 3:
             
             //WHY DONT YOU MAKE IT COUNT YOURSELF USING INT YOU DIV!!!
             
-            cout << "Running GEN Script" << endl;
+            cout << endl << "Running GEN Script" << endl;
             
             // Declare Generator
             GENERATOR firstGen;
@@ -88,38 +101,36 @@ int main() {
             //Reset Counter for Generator
             firstGen.resetCtrEasy();
             
-            cout << "When the counter reaches main, it is of size: " << firstGen.getCtr().size() << endl;
-            
             //Initialize the key
             firstGen.initialiseKey();
             
-            cout << "The starting key is: " << firstGen.getKeyString() << endl;
             
-            //Run the generator 10 times as P_g = 10 for the generator gate.
-            for (int i = 0; i < 10; i++) {
+            //Declare variables and use them to calculate the running iterations for generation loop
+            int l, k = 0;
+            cout << "How many loops would you like to run the generator for?" << endl;
+            cin >> l;
+            cout << endl;
+            
+            while (k < l) {
+            
+                //Run the generator 10 times as P_g = 10 for the generator gate.
+                for (int i = 0; i < 10; i++) {
+                    
+                    string Generated = firstGen.GEN();
+                }
                 
-                string Generated = firstGen.GEN();
+                /*
+                 GENERATOR GATE
+                Change the key, and return the generator with the new key 
+                */
+                
+                firstGen = changeKey(firstGen);
+                
+                //Add one to the while counter
+                k = k + 1;
+                
             }
             
-            
-            //CHANGE THE MOTHERFUCKING KEYYYYYYYYY
-
-            cout << "The old key is: " << firstGen.getKeyString() << endl;
-            
-            changeKey(firstGen);
-            //firstGen.initialiseKey();
-            
-            cout << "The New Key is: " << firstGen.getKeyString() << endl;
-            
-            //END CHANGING THE MOTHERFUCKING KEYYYYY
-            
-            //Run generator with new key
-            
-            for (int i = 0; i < 10; i++) {
-                string Generated = firstGen.GEN();
-            }
-            
-            changeKey(firstGen);
             
             break;
             

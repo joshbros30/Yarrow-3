@@ -6,7 +6,15 @@
 //  Copyright © 2015 Home. All rights reserved.
 //
 
+
+#include <stdio.h>
+#include <string.h>
+#include <openssl/sha.h>
 #include <iostream>
+#include <sstream>
+#include <iomanip>
+
+
 using namespace std;
 
 #ifndef SHA_h
@@ -14,7 +22,8 @@ using namespace std;
 
 class SEC1 {
 public:
-    int SHA();
+    int SHATEST();
+    string SHA(string);
 };
 
 
