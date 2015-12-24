@@ -15,6 +15,7 @@
 #include <fstream>
 #include <string>
 #include "SHA.hpp"
+#include <vector>
 
 using namespace std;
 
@@ -23,7 +24,7 @@ class RESEEDER {
 public:
     
     // this currently makes no sense whatsoever
-    int RESEED();
+    int RESEEDTest();
 };
 
 #endif /* ReseedMech_hpp */

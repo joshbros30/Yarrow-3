@@ -10,9 +10,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <openssl/sha.h>
+#include <openssl/bio.h>
+#include <openssl/evp.h>
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+#include <vector>
 
 
 using namespace std;
@@ -23,7 +26,9 @@ using namespace std;
 class SEC1 {
 public:
     int SHATEST();
-    string SHA(string);
+    string SHAString(string);
+    string SHAChar(unsigned char[]);
+    string SHAV(string,int);
 };
 
 

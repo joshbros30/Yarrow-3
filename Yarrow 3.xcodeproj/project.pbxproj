@@ -13,7 +13,7 @@
 		F455C9351C1101C800416D15 /* libcrypto.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F455C9331C1101A200416D15 /* libcrypto.a */; };
 		F455C9381C11032200416D15 /* SHA.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F455C9361C11032200416D15 /* SHA.cpp */; };
 		F455C93B1C11039100416D15 /* DES.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F455C9391C11039100416D15 /* DES.cpp */; };
-		F48FCD3E1C28CAD900781FFF /* ReseedMech.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F48FCD3C1C28CAD900781FFF /* ReseedMech.cpp */; };
+		F47A0D2C1C2A3B06005E21F9 /* SHANew.cpp in Sources */ = {isa = PBXBuildFile; fileRef = F47A0D2A1C2A3B06005E21F9 /* SHANew.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -39,8 +39,8 @@
 		F455C9371C11032200416D15 /* SHA.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SHA.hpp; sourceTree = "<group>"; };
 		F455C9391C11039100416D15 /* DES.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DES.cpp; sourceTree = "<group>"; };
 		F455C93A1C11039100416D15 /* DES.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = DES.hpp; sourceTree = "<group>"; };
-		F48FCD3C1C28CAD900781FFF /* ReseedMech.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReseedMech.cpp; sourceTree = "<group>"; };
-		F48FCD3D1C28CAD900781FFF /* ReseedMech.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = ReseedMech.hpp; sourceTree = "<group>"; };
+		F47A0D2A1C2A3B06005E21F9 /* SHANew.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SHANew.cpp; sourceTree = "<group>"; };
+		F47A0D2B1C2A3B06005E21F9 /* SHANew.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = SHANew.hpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,10 +80,10 @@
 				F455C92A1C10E33300416D15 /* main.cpp */,
 				F4242F3F1C173483005C95E5 /* Generation.cpp */,
 				F4242F401C173483005C95E5 /* Generation.hpp */,
-				F48FCD3C1C28CAD900781FFF /* ReseedMech.cpp */,
-				F48FCD3D1C28CAD900781FFF /* ReseedMech.hpp */,
 				F455C9361C11032200416D15 /* SHA.cpp */,
 				F455C9371C11032200416D15 /* SHA.hpp */,
+				F47A0D2A1C2A3B06005E21F9 /* SHANew.cpp */,
+				F47A0D2B1C2A3B06005E21F9 /* SHANew.hpp */,
 				F455C9391C11039100416D15 /* DES.cpp */,
 				F455C93A1C11039100416D15 /* DES.hpp */,
 			);
@@ -148,7 +148,7 @@
 			files = (
 				F455C93B1C11039100416D15 /* DES.cpp in Sources */,
 				F455C9381C11032200416D15 /* SHA.cpp in Sources */,
-				F48FCD3E1C28CAD900781FFF /* ReseedMech.cpp in Sources */,
+				F47A0D2C1C2A3B06005E21F9 /* SHANew.cpp in Sources */,
 				F455C92B1C10E33300416D15 /* main.cpp in Sources */,
 				F4242F411C173483005C95E5 /* Generation.cpp in Sources */,
 			);

@@ -13,10 +13,11 @@
 #include <stdio.h>
 #include <cryptopp/cryptlib.h>
 #include <iostream>
-#include <iostream>
+#include <sstream>
 #include <iomanip>
 #include <vector>
 #include <bitset>
+#include <fstream>
 
 #include <cryptopp/modes.h>
 #include <cryptopp/aes.h>
@@ -93,13 +94,18 @@ public:
     //Generator Function
     string GEN();
     
+    //Reseed Mechanism
+    CryptoPP::SecByteBlock reseedStep1(int);
+    
     
     //FUCK KNOWS WHAT THIS IS FOR, BUT WE'LL GET ON WITH IT.
     int GATE();
     
     
     //Reset the counter the sensible way
-    int resetCtrEasy();
+    int64_t resetCtrEasy();
+    
+    int64_t setCtr(int64_t);
     
     
     
@@ -110,7 +116,7 @@ private:
     vector <unsigned char> newCtr;
     
     //Hold the counter in a much more sensible way
-    int newCtr1;
+    int64_t newCtr1;
     
 
 };

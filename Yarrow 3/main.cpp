@@ -3,9 +3,9 @@
 #include <vector>
 
 #include "DES.hpp"
-#include "SHA.hpp"
+//#include "SHA.hpp"
 #include "Generation.hpp"
-#include "ReseedMech.hpp"
+#include "SHANew.hpp"
 //#include "EntropyAccumulator.h"
 
 using namespace std;
@@ -16,7 +16,7 @@ GENERATOR changeKey(GENERATOR firstGen) {
     
     
     //Run the generator until the length produced is less than the required length for the key
-    while (replaceKey.length() < 24) {
+    while (replaceKey.length() < 48) {
         
         replaceKey += firstGen.GEN();
     }
@@ -24,8 +24,8 @@ GENERATOR changeKey(GENERATOR firstGen) {
     cout << "Key length is currently: " << replaceKey.length() << endl;
     
     //If statement - If the length is now higher, calculates the number of characters over and removes them
-    if (replaceKey.length() > 24) {
-        int ExtraLength = replaceKey.length() - 24;
+    if (replaceKey.length() > 48) {
+        int ExtraLength = replaceKey.length() - 48;
         cout << "Extra Length: " << ExtraLength << endl;
         
         replaceKey.erase(replaceKey.end() - ExtraLength, replaceKey.end());
@@ -62,14 +62,19 @@ int main() {
     switch(x) {
             
         case 1:
-            //Call the SHA function to produce SHA1 hashing.
-            SEC1 h;
+        { //Call the SHA function to produce SHA1 hashing.
+            SHANew h;
             //int y;
             
+            
+            GENERATOR test;
+            
+            test.initialiseKey();
           
-                    h.SHATEST();
-                    cout << "Finished Running SHA Script" << endl;
-                    break;
+            h.SHA1("HELLO",10,test.getKey());
+            cout << "Finished Running SHA Script" << endl;
+            break;
+        }
         case 2:
             //Run DES.cpp
             cout << endl << "Running DES Script" << endl;
@@ -83,11 +88,11 @@ int main() {
             cout << endl << "Closing the programme :) " << endl;
             return 0;
             
-        case 4:
-            cout << endl << "Running Ressed Mechanism Test" << endl;
-            RESEEDER Cool;
-            Cool.RESEED();
-            break;
+//        case 4:
+//            cout << endl << "Running Ressed Mechanism Test" << endl;
+//     //       RESEEDER Cool;
+//            Cool.RESEEDTest();
+//            break;
             
         case 3:
             
@@ -103,6 +108,8 @@ int main() {
             
             //Initialize the key
             firstGen.initialiseKey();
+            
+            cout << "Initial key is: " << firstGen.getKeyString() << endl;
             
             
             //Declare variables and use them to calculate the running iterations for generation loop
@@ -131,7 +138,32 @@ int main() {
                 
             }
             
+            //cout << "Key Previous to reseed: " << firstGen.getKeyString() << endl;
             
+            //reseedStep1 changes the key to new key
+            firstGen.reseedStep1(100);
+            
+//            
+//            // THIS COUNTER RESET PROVIDES NO SECURITY EXTRAS - IT MERELY ADDS IMPLEMENTATION FLEXIBILITY ///
+//            //reset counter to 0
+//            firstGen.resetCtrEasy();
+//            
+//            string newCounterString = firstGen.GEN();
+//            
+//            //convert string to integer
+//            int64_t x;
+//            stringstream sst;
+//            sst << hex << newCounterString;
+//            sst >> x;
+//            
+//            //set new counter value
+//            firstGen.setCtr(x);
+//            
+//            cout << "x value is: " << x << endl;
+//            
+//
+            
+            //cout << "Key after reseed: " << firstGen.getKeyString() << endl;
             break;
             
     }
