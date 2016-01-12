@@ -3,7 +3,6 @@
 #include <vector>
 
 #include "DES.hpp"
-//#include "SHA.hpp"
 #include "Generation.hpp"
 #include "SHANew.hpp"
 //#include "EntropyAccumulator.h"
@@ -15,7 +14,7 @@ GENERATOR changeKey(GENERATOR firstGen) {
     string replaceKey = "";
     
     
-    //Run the generator until the length produced is less than the required length for the key
+    //Run the generator until the length produced is larger than the required length for the key
     while (replaceKey.length() < 48) {
         
         replaceKey += firstGen.GEN();

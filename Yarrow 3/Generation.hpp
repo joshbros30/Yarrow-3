@@ -66,12 +66,9 @@ class GENERATOR {
 public:
     //Default Constructor
    GENERATOR();
-//    
+    
     //Overload Constructor
     GENERATOR(vector <unsigned char>,SecByteBlock);
-//    
-//    //Destructor
-//    ~GENERATOR();
     
     //Acessor Functions
     SecByteBlock getKey() const;
@@ -96,10 +93,6 @@ public:
     
     //Reseed Mechanism
     CryptoPP::SecByteBlock reseedStep1(int);
-    
-    
-    //FUCK KNOWS WHAT THIS IS FOR, BUT WE'LL GET ON WITH IT.
-    int GATE();
     
     
     //Reset the counter the sensible way

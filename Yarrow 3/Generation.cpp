@@ -41,9 +41,7 @@ string GENERATOR::getKeyString() {
     HexEncoder hex(new StringSink(keyString));
     hex.Put(key.data(),key.size());
     hex.MessageEnd();
-    
-    cout << endl;
-    //cout << "KeyString = " << keyString << endl;
+
     return keyString;
     
 }
@@ -64,9 +62,6 @@ vector <unsigned char> GENERATOR::resetCtr() {
         ctr.push_back(0);
     }
     
-    cout << "The generated counter is of size: " << ctr.size() << endl;
-    
-    cout << "But using sizeof(), we return: " << sizeof(ctr) << endl;
     return newCtr = ctr;
 }
 
@@ -97,8 +92,6 @@ CryptoPP::SecByteBlock GENERATOR::initialiseKey() {
 
 SecByteBlock GENERATOR::setKey(const string keyStringHex){
     
-    //cout << "Key String is : " << keyString << endl << "Length: " << keyString.size() << endl;
-    
     //Convert string for new key into SecByteBlock and set as new key
     SecByteBlock replacementKey(DES_EDE3::KEYLENGTH);
     
@@ -110,30 +103,12 @@ SecByteBlock GENERATOR::setKey(const string keyStringHex){
     // keyString.size()/2 as hex information held as string will require double the system memory
     size_t s = STDMIN(replacementKey.size(),keyString.size());
     
-    //cout << " s = " << s << endl;
-    
     memcpy(replacementKey.data(),keyString.data(),s);
     
     if (s<DES_EDE3::KEYLENGTH) {
         memset(replacementKey.data() + s, 0, DES_EDE3::KEYLENGTH - s);
     }
-    //replacementKey= SecByteBlock(reinterpret_cast<const byte*>(keyString.data()), keyString.size());
-//    
-//    unsigned char x[24];
-//    
-//    stringstream sst;
-//    
-//    
-//    for (int i = 0; i < keyString.size()/2; i ++ ) {
-//        
-//        sst << hex << keyString.substr(2*i,3);
-//        sst >> x[i];
-//    
-//        cout << "x is: " << x;
-//    }
-    
-   // HKDF<SHA256> kdf;
-    
+
     return newKey = replacementKey;
     
 }
@@ -180,7 +155,6 @@ SecByteBlock GENERATOR::reseedStep1(int Pt){
     
     
     
-    
     //    STEP 2         //
     
     // Now run iterative formula for vi
@@ -194,8 +168,6 @@ SecByteBlock GENERATOR::reseedStep1(int Pt){
     for (int i = 1; i <= Pt;i++) {
         vTemp = vPrev + v0 + to_string(i);
         
-   //     cout << "vTemp: " << vTemp << endl;
-        
         StringSource(vTemp, true, new CryptoPP::HashFilter(sha1,new CryptoPP::StringSink(vPrev)));
         vTemp = "";
         
@@ -203,8 +175,6 @@ SecByteBlock GENERATOR::reseedStep1(int Pt){
     
     //Set last vi to vPt for use later
     string vPt = vPrev;
-    
-   // cout << "vPt = " << vPt << endl;
     
     
     //     STEP 3     //
@@ -221,43 +191,28 @@ SecByteBlock GENERATOR::reseedStep1(int Pt){
     //Hash vPt and the key to produce m, the value of s0
     StringSource(vTemp, true, new CryptoPP::HashFilter(sha1,new CryptoPP::StringSink(s0)));
     
-   // cout << "s0 size: " << s0.size() << endl;
-    
     // Declare empty variable for si values
     string sInput = s0;
     string si = "";
     
     
-    //While loop to ca;lculate varions si values by hashing all of those previously hashed.
+    //While loop to ca;lculate varios si values by hashing all of those previously hashed.
     while (sInput.size() < DES_EDE3::KEYLENGTH) {
         
         StringSource(sInput, true, new CryptoPP::HashFilter(sha1,new CryptoPP::StringSink(si)));
-        //cout << "si size: " << si.size() << endl;
         sInput = sInput + si;
         si = "";
-        //cout << endl << sInput.size() << endl;
         
     }
-    //cout << endl << sInput.size() << endl << DES_EDE3::KEYLENGTH << endl;
     
     //If loop to cut down sInput to the length required for the new key
     if (sInput.size() > DES_EDE3::KEYLENGTH) {
         sInput.erase (DES_EDE3::KEYLENGTH,sInput.size() - DES_EDE3::KEYLENGTH);
     }
     
-   // cout << "sInput size = " << sInput.size() << endl;
-    
-    
-    // THE FOLLOWING THREE LINES OF CODE ARE FOR CHECKING - NOTE sInputHex IS NOT USED APART FROM PRINTING TO SCREEN ///
     string sInputHex;
     
     StringSource(sInput,true,new CryptoPP::HexEncoder(new CryptoPP::StringSink(sInputHex)));
-    
-    //cout << "sInput in hex: " << sInputHex << endl;
-    
-    // cout << v0 << endl;
-    
-    //  FOLLOWING CODE COPIED FROM SET KEY FROM STRING - Have removed conversion from Hex as key is already in byte form //////
     
     
     //Convert string for new key into SecByteBlock and set as new key
@@ -278,17 +233,11 @@ SecByteBlock GENERATOR::reseedStep1(int Pt){
 
 string GENERATOR::GEN() {
     
-    //AutoSeededRandomPool prng;
-    //
-    //SecByteBlock key(DES_EDE3::DEFAULT_KEYLENGTH);
-    // prng.GenerateBlock( key, key.size() );
     
     //Assign variables for counter and key from class
     CryptoPP::SecByteBlock key = newKey;
-    //vector <unsigned char> ctrVec = newCtr;
     
-    
-    //Convert new int ctr to binary
+    //Convert int newCtr1 to binary
     int rem,i, a = newCtr1;
     
     unsigned char ctr[8];
@@ -312,40 +261,10 @@ string GENERATOR::GEN() {
     }
     
     
-    
-    // cout << "Upon reaching the Generator Function the counter is of size: " << ctrVec.size() << endl;
-    
-    //Declare variable for non-vector type counter
-    //unsigned char ctr[ctrVec.size()];
-    
-    cout << endl << "The array is of size before filling: " << sizeof(ctr) << endl;
-    
-    //Declare temperary variable for use in loop
-    //unsigned char tempCtr;
-    
-    //Run for loop to convert vector to array using pointers [FUCKING SCRAY MATE]
-    //for(int i = 0; i < ctrVec.size(); i++) {
-    
-    //Get value for individaul vector
-    //     tempCtr = ctrVec[i];
-    
-    //Push back into array
-    //       ctr[i] = tempCtr;
-    // }
-    
-    cout << "Key size: " << key.size() << endl;
-    
-    cout << "Counter size: " << sizeof(ctr) << endl;
-    
-    
     // Convert newCtr1 to binary representation in 8 bit as a string for use within the algorithm
     string plain = bitset<8>(newCtr1).to_string();
-    //string plain = "Hello";
     string cipher, encoded, recovered;
     
-    //cout << "Please enter a message to be Cipered" << endl;
-    //cin >> plain;
-    //cout << endl;
     
     /*********************************\
      Pad the message
@@ -358,9 +277,6 @@ string GENERATOR::GEN() {
         CTR_Mode< DES_EDE3 >::Encryption e;
         e.SetKeyWithIV( key, key.size(), ctr );
         
-        // The StreamTransformationFilter adds padding
-        //  as required. ECB and CBC Mode must be padded
-        //  to the block size of the cipher. CTR does not.
         StringSource ss1( plain, true,
                          new StreamTransformationFilter( e,
                                                         new StringSink( cipher )
@@ -377,39 +293,13 @@ string GENERATOR::GEN() {
      Encode the Message
     \*********************************/
     
-    // Pretty print cipher text
+    // print cipher text
     StringSource ss2( cipher, true,
                      new HexEncoder(
                                     new StringSink( encoded )
                                     ) // HexEncoder
                      ); // StringSource
     cout << "cipher text: " << encoded << endl;
-    
-    /*********************************\
-     Decode the Message
-     \*********************************/
-    //
-    //    try
-    //    {
-    //        CTR_Mode< DES_EDE3 >::Decryption d;
-    //        d.SetKeyWithIV( key, key.size(), ctr );
-    //
-    //        // The StreamTransformationFilter removes
-    //        //  padding as required.
-    //        StringSource ss3( cipher, true,
-    //                         new StreamTransformationFilter( d,
-    //                                                        new StringSink( recovered )
-    //                                                        ) // StreamTransformationFilter
-    //                         ); // StringSource
-    //
-    //        cout << "recovered text: " << recovered << endl;
-    //    }
-    //    catch( CryptoPP::Exception& e )
-    //    {
-    //        cerr << e.what() << endl;
-    //        exit(1);
-    //    }
-    
     
     //Increase the counter by one
     newCtr1 = newCtr1 + 1;
