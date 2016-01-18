@@ -1,13 +1,18 @@
+//main.cpp
+//
+// Main script to show GENERATOR object producing random output and
+// give an example of reseed method
+
 #include <iostream>
 #include <string>
 #include <vector>
 
-#include "DES.hpp"
+
 #include "Generation.hpp"
-#include "SHANew.hpp"
-//#include "EntropyAccumulator.h"
 
 using namespace std;
+
+
 
 GENERATOR changeKey(GENERATOR firstGen) {
     //Create temp variable for new key
@@ -42,132 +47,78 @@ GENERATOR changeKey(GENERATOR firstGen) {
     
     return firstGen;
     
-
+    
 }
 
 
 
 int main() {
     
-    //CryptoPP::AutoSeededRandomPool prng
-    int x;
     
-    cout << "What function would you like to run? " << endl;
-    cout << "1. SHA1" << endl << "2. DES" << endl << "3. Run Full Generator" << endl;
-    cout << "4. Reseed Test" << endl << "5. Close the programme." << endl;
+    cout << endl << "Running GEN Script" << endl;
     
-    cin >> x;
+    // Declare Generator
+    GENERATOR firstGen;
     
-    switch(x) {
-            
-        case 1:
-        { //Call the SHA function to produce SHA1 hashing.
-            SHANew h;
-            //int y;
-            
-            
-            GENERATOR test;
-            
-            test.initialiseKey();
-          
-            h.SHA1("HELLO",10,test.getKey());
-            cout << "Finished Running SHA Script" << endl;
-            break;
+    //Reset Counter for Generator
+    firstGen.resetCtrEasy();
+    
+    //Initialize the ke
+    firstGen.initialiseKey();
+    
+    cout << "Initial key is: " << firstGen.getKeyString() << endl;
+    
+    //Open file to write output to
+    ofstream output("/Users/Home/output.txt");
+    if (!output.is_open()) {
+        char answer;
+        
+        cout << "Error opening file to write to. Would you like to still continue? [y]es or [n]o?" << endl;
+        cin >> answer;
+        if ( answer == 'n') {
+            exit(0);
         }
-        case 2:
-            //Run DES.cpp
-            cout << endl << "Running DES Script" << endl;
-            DES1 j;
-            j.DES();
+    }
+    char reseed = 'y';
+    
+    while(reseed == 'y') {
+        
+        //Declare variables and use them to calculate the running iterations for generation loop
+        int l, byteCount = 0, count = 0;
+        cout << "How many random bytes of random output would you like to produce before reseed?" << endl;
+        cout << "This must be a multiple of 8. If value entered is not,  amount will be rounded up to nearest multiple." << endl;
+        cin >> l;
+        cout << endl;
+        
+        // While loop to generate the required amount of bytes
+        while (byteCount < l) {
+            string Generated = firstGen.GEN();
+            output << Generated;
             
-            cout << "Finished Running DES Script" << endl;
-            break;
+            // Add 8 to the byte counter and 1 to the run counter
+            byteCount = byteCount + 8;
+            count = count +1;
             
-        case 5:
-            cout << endl << "Closing the programme :) " << endl;
-            return 0;
-            
-//        case 4:
-//            cout << endl << "Running Ressed Mechanism Test" << endl;
-//     //       RESEEDER Cool;
-//            Cool.RESEEDTest();
-//            break;
-            
-        case 3:
-            
-            //WHY DONT YOU MAKE IT COUNT YOURSELF USING INT YOU DIV!!!
-            
-            cout << endl << "Running GEN Script" << endl;
-            
-            // Declare Generator
-            GENERATOR firstGen;
-            
-            //Reset Counter for Generator
-            firstGen.resetCtrEasy();
-            
-            //Initialize the key
-            firstGen.initialiseKey();
-            
-            cout << "Initial key is: " << firstGen.getKeyString() << endl;
-            
-            
-            //Declare variables and use them to calculate the running iterations for generation loop
-            int l, k = 0;
-            cout << "How many loops would you like to run the generator for?" << endl;
-            cin >> l;
-            cout << endl;
-            
-            while (k < l) {
-            
-                //Run the generator 10 times as P_g = 10 for the generator gate.
-                for (int i = 0; i < 10; i++) {
-                    
-                    string Generated = firstGen.GEN();
-                }
-                
-                /*
-                 GENERATOR GATE
-                Change the key, and return the generator with the new key 
-                */
-                
+            //Gate to enusure keychange happens every ten outputs
+            if (count == 10){
                 firstGen = changeKey(firstGen);
-                
-                //Add one to the while counter
-                k = k + 1;
-                
+                count = 0;
             }
-            
-            //cout << "Key Previous to reseed: " << firstGen.getKeyString() << endl;
-            
-            //reseedStep1 changes the key to new key
-            firstGen.reseedStep1(100);
-            
-//            
-//            // THIS COUNTER RESET PROVIDES NO SECURITY EXTRAS - IT MERELY ADDS IMPLEMENTATION FLEXIBILITY ///
-//            //reset counter to 0
-//            firstGen.resetCtrEasy();
-//            
-//            string newCounterString = firstGen.GEN();
-//            
-//            //convert string to integer
-//            int64_t x;
-//            stringstream sst;
-//            sst << hex << newCounterString;
-//            sst >> x;
-//            
-//            //set new counter value
-//            firstGen.setCtr(x);
-//            
-//            cout << "x value is: " << x << endl;
-//            
-//
-            
-            //cout << "Key after reseed: " << firstGen.getKeyString() << endl;
-            break;
-            
+        }
+        
+        
+        //Reseed the key with new entropy
+        firstGen.reseedStep1(100);
+        
+        cout << "Would you like to run the generator again? [y]es or [n]o" << endl;
+        cin >> reseed;
+        
+        
     }
     
-    cout << "Your the fucking boss, it works mother fucker!" << endl;
+    //Close the output file now completely finished with
+    output.close();
+    cout << "Please find the output at /Users/Home/output.txt" << endl;
     
     return 0;
 }

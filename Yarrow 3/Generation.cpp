@@ -238,29 +238,45 @@ string GENERATOR::GEN() {
     CryptoPP::SecByteBlock key = newKey;
     
     //Convert int newCtr1 to binary
+    //Convert int newCtr1 to binary
     int rem,i, a = newCtr1;
     
+    
     unsigned char ctr[8];
-    
-    for (i = 0; i < 8; i++) {
-        if (a == 0) {
-            ctr[i]= '0';
+    // If input is 0 immediately print 0 to all positions.
+    if (a == 0) {
+        for(i = 0; i < 8; i++) {
+            ctr[i] = '0';
         }
-        else {
-            rem = a % 2;
-            
-            if (rem == 0){
-                ctr[i] = '0';
-            }
-            else {
-                ctr[i] = '1';
-            }
-            a = a/2;
-        }
+    }else {
         
+        // For loop to find the values for each binary position
+        for (i = 0; i< 8; i++){
+            //If statement to ensure that algorithm stops when a has reached 0
+            if (a != 0) {
+                
+                
+                rem = a % 2;
+                
+                if (rem == 0){
+                    ctr[i] = '0';
+                }
+                else {
+                    ctr[i] = '1';
+                }
+                a = a/2;
+            }
+            // Else statement for when a does reach 0 that then moves all values to the far left and then appends 0s to the right.
+            else {
+                for (int j = 0; j< 8-i; j++){
+                    ctr[j+i] = ctr[j];
+                    ctr[j] = '0';
+                }
+                // Break ensures the for loop doesnt run again with an incremented i after algorithm has finished.
+                break;
+            }
+        }
     }
-    
-    
     // Convert newCtr1 to binary representation in 8 bit as a string for use within the algorithm
     string plain = bitset<8>(newCtr1).to_string();
     string cipher, encoded, recovered;
